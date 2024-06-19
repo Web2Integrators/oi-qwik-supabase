@@ -1,140 +1,100 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import { Link } from '@builder.io/qwik-city';
+
+import { ResponseData, useForm, valiForm$ } from '@modular-forms/qwik';
+import { useSignIn } from '@oi-workspace/qwik-city-supabase-adaptor';
+import { SignInForm, SignInSchema } from 'libs/qwik-city-supabase-adaptor/src/lib/types/types';
+import { LuArrowBigLeft } from "@qwikest/icons/lucide";
+import { TextInput } from '../components/TextInput';
 
 export default component$(() => {
+  const [signinForm, { Form, Field }] = useForm<SignInForm, ResponseData>({
+    loader: { value: { email: "", password: "" } },
+    action: useSignIn(),
+    validate: valiForm$(SignInSchema),
+  });
+
   return (
-    <div>
-      <h1>
-        Welcome qwik-supabase <span class="lightning">⚡️</span>
-      </h1>
+    <>
+      <div class="mx-auto max-w-md">
+        <a
+          class="btn mb-2 font-medium text-purple-600 transition duration-150 ease-in-out hover:text-purple-400"
+          href="/"
+        >
+          <LuArrowBigLeft class="text-2xl" />
+        </a>
+        <Form class="space-y-12 border-2 border-gray-100 md:space-y-14 lg:space-y-16 ">
+          <div class="space-y-4">
+            <Field name="email">
+              {(field, props) => (
+                <div class="form-control w-full">
+                  <TextInput
+                    {...props}
+                    value={field.value}
+                    error={field.error}
+                    type="email"
+                    label="Email"
+                    placeholder="example@email.com"
+                    required
+                  />
+                </div>
+              )}
+            </Field>
+            <Field name="password">
+              {(field, props) => (
+                <div class="form-control w-full">
+                  <TextInput
+                    {...props}
+                    value={field.value}
+                    error={field.error}
+                    type="password"
+                    label="Password"
+                    placeholder="********"
+                    required
+                  />
+                </div>
+              )}
+            </Field>
+            <div class="mt-2 text-center">
+              <div class="text-lg text-slate-400">
+                Did you forgot password?{" "}
+                <a
+                  class="font-medium text-purple-500 transition duration-150 ease-in-out hover:text-purple-400"
+                  href="/forgotpassword"
+                >
+                  Click here
+                </a>
+              </div>
+            </div>
+          </div>
 
-      <ul>
-        <li>
-          Check out the <code>src/routes</code> directory to get started.
-        </li>
-        <li>
-          Add integrations with <code>npm run qwik add</code>.
-        </li>
-        <li>
-          More info about development in <code>README.md</code>
-        </li>
-      </ul>
-
-      <h2>Commands</h2>
-
-      <table class="commands">
-        <tbody>
-          <tr>
-            <td>
-              <code>npm run dev</code>
-            </td>
-            <td>Start the dev server and watch for changes.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run preview</code>
-            </td>
-            <td>Production build and start preview server.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run build</code>
-            </td>
-            <td>Production build.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add</code>
-            </td>
-            <td>Select an integration to add.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Add Integrations</h2>
-
-      <table class="commands">
-        <tbody>
-          <tr>
-            <td>
-              <code>npm run qwik add cloudflare-pages</code>
-            </td>
-            <td>
-              <a href="https://developers.cloudflare.com/pages" target="_blank">
-                Cloudflare Pages Server
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add express</code>
-            </td>
-            <td>
-              <a href="https://expressjs.com/" target="_blank">
-                Nodejs Express Server
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add netlify-edge</code>
-            </td>
-            <td>
-              <a href="https://docs.netlify.com/" target="_blank">
-                Netlify Edge Functions
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add static</code>
-            </td>
-            <td>
-              <a
-                href="https://qwik.builder.io/qwikcity/static-site-generation/overview/"
-                target="_blank"
-              >
-                Static Site Generation (SSG)
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Community</h2>
-
-      <ul>
-        <li>
-          <span>Questions or just want to say hi? </span>
-          <a href="https://qwik.builder.io/chat" target="_blank">
-            Chat on discord!
-          </a>
-        </li>
-        <li>
-          <span>Follow </span>
-          <a href="https://twitter.com/QwikDev" target="_blank">
-            @QwikDev
-          </a>
-          <span> on Twitter</span>
-        </li>
-        <li>
-          <span>Open issues and contribute on </span>
-          <a href="https://github.com/BuilderIO/qwik" target="_blank">
-            GitHub
-          </a>
-        </li>
-        <li>
-          <span>Watch </span>
-          <a href="https://qwik.builder.io/media/" target="_blank">
-            Presentations, Podcasts, Videos, etc.
-          </a>
-        </li>
-      </ul>
-      <Link class="mindblow" href="/flower/">
-        Blow my mind 🤯
-      </Link>
-    </div>
+          <div class="m-2">
+            <button class="btn btn-primary w-full" type="submit">
+              {signinForm.submitting ? (
+                <>
+                  <span class="loading loading-spinner"></span>{" "}
+                  <span>..Sign In processing</span>
+                </>
+              ) : (
+                <span>Sign In</span>
+              )}
+            </button>
+          </div>
+          
+        </Form>
+        <div class="mt-5 text-center">
+          <div class="text-lg text-slate-400">
+            Don't have an account?{" "}
+            <a
+              class="font-medium text-purple-500 transition duration-150 ease-in-out hover:text-purple-400"
+              href="/signup"
+            >
+              Register
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
   );
 });
 

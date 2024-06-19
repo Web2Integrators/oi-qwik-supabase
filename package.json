@@ -6,8 +6,10 @@
   "private": true,
   "dependencies": {
     "@modular-forms/qwik": "^0.23.1",
+    "@qwikest/icons": "^0.0.13",
     "@supabase/ssr": "^0.3.0",
     "@supabase/supabase-js": "^2.43.5",
+    "clsx": "^2.1.1",
     "qwik-nx": "2.3.0",
     "valibot": "^0.29.0"
   },
