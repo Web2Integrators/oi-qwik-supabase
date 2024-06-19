@@ -1,15 +1,18 @@
 {
-  "name": "marketing",
+  "name": "qwik-supabase",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "apps/marketing/src",
+  "sourceRoot": "apps/qwik-supabase/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "qwik-nx:build",
       "options": {
-        "runSequence": ["marketing:build.client", "marketing:build.ssr"],
-        "outputPath": "dist/apps/marketing"
+        "runSequence": [
+          "qwik-supabase:build.client",
+          "qwik-supabase:build.ssr"
+        ],
+        "outputPath": "dist/apps/qwik-supabase"
       },
       "configurations": {
         "preview": {}
@@ -18,15 +21,15 @@
     "build.client": {
       "executor": "@nx/vite:build",
       "options": {
-        "outputPath": "dist/apps/marketing",
-        "configFile": "apps/marketing/vite.config.ts"
+        "outputPath": "dist/apps/qwik-supabase",
+        "configFile": "apps/qwik-supabase/vite.config.ts"
       }
     },
     "build.ssr": {
       "executor": "@nx/vite:build",
       "defaultConfiguration": "preview",
       "options": {
-        "outputPath": "dist/apps/marketing"
+        "outputPath": "dist/apps/qwik-supabase"
       },
       "configurations": {
         "preview": {
@@ -38,7 +41,7 @@
     "preview": {
       "executor": "@nx/vite:preview-server",
       "options": {
-        "buildTarget": "marketing:build",
+        "buildTarget": "qwik-supabase:build",
         "port": 4173
       }
     },
@@ -47,13 +50,13 @@
       "outputs": ["{options.reportsDirectory}"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "../../coverage/apps/marketing"
+        "reportsDirectory": "../../coverage/apps/qwik-supabase"
       }
     },
     "serve": {
       "executor": "@nx/vite:dev-server",
       "options": {
-        "buildTarget": "marketing:build.client",
+        "buildTarget": "qwik-supabase:build.client",
         "mode": "ssr",
         "port": 5173
       }
@@ -62,13 +65,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "node --inspect-brk ../../node_modules/vite/bin/vite.js --mode ssr --force",
-        "cwd": "apps/marketing"
+        "cwd": "apps/qwik-supabase"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["apps/marketing/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/qwik-supabase/**/*.{ts,tsx,js,jsx}"]
       }
     }
   }

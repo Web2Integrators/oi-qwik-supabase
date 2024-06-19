@@ -1,0 +1,25 @@
+{
+  "name": "qwik-city-supabase-adaptor",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/qwik-city-supabase-adaptor/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/libs/qwik-city-supabase-adaptor"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/qwik-city-supabase-adaptor/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  }
+}
